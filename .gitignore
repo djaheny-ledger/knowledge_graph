@@ -1,0 +1,10 @@
+.env
+venvgraph/
+.idea*
+.env*
+*.terraform*
+.vscode
+venvbot/
+__pycache__/
+*.DS_Store
+trashbin/
