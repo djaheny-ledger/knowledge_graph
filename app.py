@@ -150,6 +150,11 @@ graph_store = SimpleGraphStore()
 storage_context = StorageContext.from_defaults(graph_store=graph_store)
 print('Json file loaded!')
 
+# Start the timer
+start_time = time.time()
+
+print('Building Knowledge Graph...')
+
 kg_index = KnowledgeGraphIndex.from_documents(
     documents,
     max_triplets_per_chunk=2,
@@ -164,7 +169,14 @@ query_engine = kg_index.as_query_engine(
     similarity_top_k=5,
 )
 
+# End the timer
+end_time = time.time()
+
+# Calculate the elapsed time in minutes
+elapsed_time_minutes = (end_time - start_time) / 60
+
 print('Knowledge Graph Ready!')
+print(f'Time taken: {elapsed_time_minutes:.2f} minutes')
 
 ######################################################
 
@@ -337,7 +349,7 @@ async def react_description(query: Query, request: Request, api_key: str = Depen
                     engine=embed_model
                 )
                 xq = res_embed['data'][0]['embedding']
-                res_query = index.query(xq, top_k=2, include_metadata=True)
+                res_query = index.query(xq, top_k=1, include_metadata=True)
                 # Filter items with score > 0.77 and sort them by score
                 sorted_items = sorted([item for item in res_query['matches'] if item['score'] > 0.77], key=lambda x: x['score'])
 

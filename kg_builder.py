@@ -79,24 +79,7 @@ graph_store = SimpleGraphStore()
 storage_context = StorageContext.from_defaults(graph_store=graph_store)
 print('Json file loaded!')
 
-### BUILD AND USE BASIC KEYWORD QUERY
-
-# # Build a knowledge graph index from the documents (may be time-consuming)
-# index = KnowledgeGraphIndex.from_documents(
-#     documents,
-#     max_triplets_per_chunk=2,
-#     storage_context=storage_context,
-#     service_context=service_context,
-# )
-# print('Knowledge graph built!')
-
-# # Query the knowledge graph
-# query_engine = index.as_query_engine(include_text=False, response_mode="tree_summarize")
-# response = query_engine.query("Tell me more about Polkadot")
-# print(response)
-
-## BUILD GRAPH AND QUERY WITH EMBEDDINGS ##
-
+# Build a knowledge graph index from the documents (may be time-consuming)
 index = KnowledgeGraphIndex.from_documents(
     documents,
     max_triplets_per_chunk=2,
@@ -104,6 +87,7 @@ index = KnowledgeGraphIndex.from_documents(
     include_embeddings=True,
 )
 
+ # Query the knowledge graph
 query_engine = index.as_query_engine(
     include_text=True,
     response_mode="tree_summarize",
